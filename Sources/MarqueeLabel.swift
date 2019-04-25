@@ -104,6 +104,8 @@ open class MarqueeLabel: UILabel, CAAnimationDelegate {
      */
     open var animationCurve: UIView.AnimationCurve = .linear
     
+    @IBInspectable open var forceScrolling: Bool = false
+    
     /**
      A boolean property that sets whether the `MarqueeLabel` should behave like a normal `UILabel`.
      
@@ -762,7 +764,7 @@ open class MarqueeLabel: UILabel, CAAnimationDelegate {
         // Check if the label string fits
         let labelTooLarge = (sublabelSize().width + leadingBuffer) > self.bounds.size.width + CGFloat.ulpOfOne
         let animationHasDuration = speed.value > 0.0
-        return (!labelize && labelTooLarge && animationHasDuration)
+        return (!labelize && (labelTooLarge || forceScrolling) && animationHasDuration)
     }
     
     private func labelReadyForScroll() -> Bool {
